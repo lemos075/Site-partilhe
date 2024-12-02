@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partilhe e Faça a Diferença</title>
+    <link rel="stylesheet" href="./Assets/CSS/download.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./Assets/Img/logo partilhe pronta.png" alt="Logo da empresa">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Início</a></li>
+                <li><a href="./sobrenos.html">Sobre Nós</a></li>
+                <li><a href="./sobrenos.html">Sobre nós</a></li>
+                <li><a href="./contato.html">Contato</a></li>
+                <li><a href="./download.html">Download</a></li>
+            </ul>
+        </nav>
+        <div class="login-btn">
+            <a href="./Cad.html">   
+            <button>Entrar</button>
+        </a>
+        </div>
+    </header>
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <div id="txtprincipaldiv">
+                    <h1 id="txtprincipal">Partilhe e <br> Faça a <br> <span id="txtdif">Diferença</span></h1>
+                </div>
+                <button class="btn-download" id="btn-download">Fazer Download</button>
+            </div>
+            <img id="imgmulherfome" src="./Assets/Img/mulhermorena.png " alt="Mulher segurando frutas">
+        </section>
+
+        <h1 id="txtdoacaotmpreal">
+            Encontre Doações <br> Disponíveis em <br>
+            <span class="highlight">Tempo Real!</span>
+        </h1>
+
+        <h1 id="descdoacaotmpreal">Utilizamos o GPS para localizar e visualizar doações ao vivo, garantindo que você possa ajudar imediatamente quem mais precisa!</h1>
+        <img id="imgdoacaodisp" src="./Assets/Img/doacaodisp.jpg" alt="Imagem de doações">
+
+        <h1 id="txtdoacaotmpreal">
+            Reserva de Doação <br> Imediata <br>
+        </h1>
+
+        <h1 id="descdoacaotmpreal">Oferecemos diversos tipos de Doações, e quando obter a doação escolhida, você poderá reservá-la apenas com um botão</h1>
+        <img id="imgdoacaodisp" src="./Assets/Img/doacaomanga.jpeg " alt="Imagem de doação de manga">
+    </main>
+
+</body>
+<script>
+       document.getElementById("btn-download").addEventListener("click", function() {
+            // URL do arquivo APK
+            const apkUrl = "https://drive.google.com/file/d/1VzpprMI3_6Pmj1BgCDd6mDdg-KEKzXtQ/view?usp=drive_link";
+
+            // Cria um link temporário e inicia o download
+            const link = document.createElement("a");
+            link.href = apkUrl;
+            link.download = "Partilhe.apk"; // Nome do arquivo ao salvar
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+</script>
+
+</html>
+

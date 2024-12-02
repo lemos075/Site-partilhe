@@ -1,0 +1,187 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#txtprincipal {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 100px;
+}
+
+#txtdif {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 100px;
+}
+
+.txtfaca {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.txtdif {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.logo img {
+    width: 30%;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.login-btn button {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e0f7d9;
+    padding: 50px 20px;
+    height: calc(100vh - 80px); /* Altura da tela menos a altura do cabeçalho */
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    color: #333;
+    line-height: 1.2;
+}
+
+.hero-content h1 strong {
+    color: #00bfa5;
+}
+
+.hero-content .btn-download {
+    margin-top: 20px;
+    background-color: #000000;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#imgmulherfome{
+    width: 670px;
+    height: 670px;
+}
+
+.hero-image img {
+    width: 400px;
+    height: auto;
+}
+
+#txtdoacaotmpreal {
+    margin-top: 7%;
+    font-size: 7rem;
+    text-align: center;
+}
+
+#descdoacaotmpreal {
+    color: black;
+    font-weight: 300;
+    margin-top: 2.5%;
+    text-align: center;
+}
+
+#imgdoacaodisp {
+    width: 600px;
+    height: 1350px;
+    display: block;
+    margin: 20px auto;
+}
+
+
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    #txtprincipal {
+        font-size: 4rem;
+    }
+
+    #txtdif {
+        font-size: 4rem;
+    }
+
+    .hero-image img {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    #imgmulherfome {
+        width: 60%; /* Ajuste para manter a imagem mais responsiva */
+        margin-top: 20px;
+    }
+
+    .hero-content .btn-download {
+        margin-left: 0; /* Garantindo que não haja margem esquerda em telas menores */
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    #txtdoacaotmpreal {
+        font-size: 4rem;
+        margin-left: 0;
+    }
+
+    #descdoacaotmpreal {
+        font-size: 1.5rem;
+        margin-left: 0;
+    }
+}

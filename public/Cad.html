@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Partilhe +</title>
+    <link rel="stylesheet" href="./Assets/CSS/styleCad.css">
+  </head>
+  
+
+  <body>
+
+    <div class="container">
+      <h2>Em qual das opções você se encaixa?</h2>
+
+      <div class="button-group">
+          <button class="btn" id="selectprod">Sou Produtor</button>
+          <button class="btn" id="selectong">Sou ONG</button>
+      </div>
+
+      <div class="footer">
+          <p>Já tem uma conta? <a href="Login.html">Fazer login</a></p>
+      </div>
+  </div>
+
+
+  </body>
+<script>
+  
+  // Função para salvar o tipo de usuário no localStorage
+  function salvarTipoDeUsuarioLocal(tipo) {
+    localStorage.setItem('tipoUsuario', tipo);
+  }
+
+  // Função para redirecionar e salvar o tipo "ONG"
+  document.getElementById('selectong').addEventListener('click', function() {
+    salvarTipoDeUsuarioLocal('ONG');  // Salva o tipo no localStorage
+    window.location.href = "Ong.html";  // Redireciona para a página de ONG
+  });
+
+  // Função para redirecionar e salvar o tipo "Produtor"
+  document.getElementById('selectprod').addEventListener('click', function() {
+    salvarTipoDeUsuarioLocal('Produtor');  // Salva o tipo no localStorage
+    window.location.href = "produtor.html";  // Redireciona para a página de Produtor
+  });
+
+</script>
+</html>

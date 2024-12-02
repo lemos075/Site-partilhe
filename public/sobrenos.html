@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/CSS/index2.css" />
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <img id="partilheimg" src="./Assets/Img/PARTILHE VERDE LOGO.png" alt="Logo">
+        <ul>
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./sobrenos.html">Sobre Nós</a></li>
+            <li><a href="./termos.html">Termos de Serviço</a></li>
+            <li><a href="./contato.html">Contato</a></li>
+            <li><a href="./download.html">Download</a></li>
+        </ul>
+        <a href="./Login.html">
+            <button class="doar-btn">Login</button>
+        </a>
+    </nav>
+    <div id="greenbar">
+        <p>Partilhar é Amar o Próximo!</p>
+    </div>
+    <div class="con-historia">
+        <div class="text">
+            <p id="fale">Nossa</p>
+            <p id="conosco">História</p>
+        </div>
+        <div class="line"></div>
+        <div class="con-conquistas">
+            <h1>Conquistas</h1>
+            <div class="achievements">
+                <div class="achievement">
+                    <span class="icon">Ψ</span>
+                    <span class="count">0</span>
+                    <span class="description">Total de refeições servidas</span>
+                </div>
+                <div class="achievement">
+                    <span class="icon">☆</span>
+                    <span class="count">0</span>
+                    <span class="description">Média de avaliação</span>
+                </div>
+                <div class="achievement">
+                    <span class="icon">👤</span>
+                    <span class="count">0</span>
+                    <span class="description">Número de pessoas Ajudadas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="blocos-obj">
+        <div class="tit-obj">
+            <div class="text-obj">
+                <p id="text-objs">Objetivos</p>
+            </div>
+            <div id="line-obj"></div>
+            <div id="square-mid1"></div>
+            <div id="square-mid2"></div>
+        </div>
+        <div id="bloco-obj">
+            <div class="nutritivo">
+                <div id="tit-nutritivo">
+                    <span id="tit-nutriprinc">Fornecer alimentos nutritivos</span>
+                </div>
+                <span id="desc-nutritivo">O projeto visa atender às necessidades de alimentação das pessoas em situação
+                    de vulnerabilidade, oferecendo refeições quentes e cestas básicas, garantindo que ninguém passe
+                    fome.</span>
+            </div>
+
+            <div id="bloco-com">
+                <div class="combate">
+                    <div id="tit-combate">
+                        <span id="tit-comnbateprinc">Combater a fome</span>
+                    </div>
+                    <span id="desc-combate">O principal objetivo é garantir que os necessitados tenham acesso a
+                        alimentos que atendam às suas necessidades nutricionais básicas. Isso inclui alimentos ricos em
+                        vitaminas, minerais e proteínas essenciais para o crescimento, desenvolvimento e saúde
+                        geral.</span>
+                </div>
+            </div>
+
+            <div id="bloco-inc">
+                <div class="inclusao">
+                    <div id="tit-inclusao">
+                        <span id="tit-inclusaoprinc">Inclusão e Equidade</span>
+                    </div>
+                    <span id="desc-inclusao">O projeto é comprometido com a inclusão e a equidade, garantindo que todos
+                        os indivíduos tenham acesso igualitário aos seus serviços, independentemente de raça, gênero,
+                        orientação sexual, religião ou status socioeconômico.</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="bloco-line1"></div>
+        <div id="bloco-line2"></div>
+        <div id="bloco-line3"></div>
+
+        <div id="bloco-doacaomid">
+            <h1>Ajude quem mais Precisa!</h1>
+        </div>
+
+        <p id="bloco-ajude">Transforme uma refeição em esperança: doe alimentos e alimente um futuro melhor.</p>
+
+        <canvas id="meuGrafico"></canvas>
+        <button class="doar-btn-tab">Doar</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script>
+        const ctx = document.getElementById('meuGrafico').getContext('2d');
+        const meuGrafico = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Nordeste', 'Norte', 'Sul', 'Centro-Oeste', 'Sudeste'],
+                datasets: [{
+                    label: 'Vendas',
+                    data: [47, 36, 19, 17, 14],
+                    backgroundColor: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#ffb3e6']
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => {
+                                return context.parsed.toLocaleString('pt-BR', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }) + ' %';
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'left',
+                        labels: {
+                            font: { size: 18 }
+                        },
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        display: true,
+                        formatter: (value, context) => {
+                            const total = context.chart._metasets[0].total;
+                            const percentage = (value / total * 100).toFixed(1) + '%';
+                            return `% ${value.toLocaleString('pt-BR', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })} (${percentage})`;
+                        },
+                        anchor: 'end',
+                        align: 'center',
+                        offset: 10
+                    }
+                },
+                responsive: false,
+                maintainAspectRatio: true
+            }
+        });
+    </script>
+
+    <div id="blocos-dif">
+        <div class="tit-dif">
+            <div class="text-dif">
+                <p id="text-difs">Nossos <br> Diferenciais</p>
+            </div>
+            <div id="line-difs"></div>
+
+
+            <div id="bloco-obj">
+                <div class="nutritivo">
+                    <div id="tit-nutritivo">
+                        <span id="tit-nutriprinc">Leis e Regulamentações</span>
+                    </div>
+                    <span id="desc-nutritivo">Fazemos a utilização de leis e projetos de leis que serviram como
+                        princípios e valores da nossa empresa. Como o caso da lei nº 17.755/2022 que regulementa doação
+                        de excedentes de alimentos por estabelecimentos, o que facilita o nosso processo de
+                        distruibuição de alimentos. Além do projeto de lei 4/2021: que tem impacto significativo para
+                        combate a fome e promover a agricultura sustentável</span>
+                </div>
+
+                <div id="bloco-com">
+                    <div class="combate">
+                        <div id="tit-combate">
+                            <span id="tit-comnbateprinc">Objetivos de Desenvolvimento Sustentável</span>
+                        </div>
+                        <span id="desc-combate">Assim como as leis e Regulamentações também temos como base as ODS,
+                            sendo elas a 2 e a 12 que promovem a fome zero e agricultura sustentável, juntamente ao
+                            consumo e produção responsável</span>
+                    </div>
+                </div>
+
+                <div id="bloco-inc">
+                    <div class="inclusao">
+                        <div id="tit-inclusao">
+                            <span id="tit-inclusaoprinc">Facilidade</span>
+                        </div>
+                        <span id="desc-inclusao">Nosso software veio com a intuição de mostrar ao usuário uma maneira
+                            facilitada de fazer negócios, promover a educação alimentar e o principal que é a união de
+                            produtores de alimento com ONG’S que estão dispostas a participar da distruibuição. Assim
+                            partilhando e melhorando o mundo!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer">
+                <nav>
+                    <ul id="footer-ul">
+                        <li><a href="#">Doações</a></li>
+                        <li><a href="#">Causas Populares</a></li>
+                        <li><a href="#">Próximos Eventos</a></li>
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Ajuda</a></li>
+                        <li><a href="#">Privacidade</a></li>
+                    </ul>
+            </div>
+
+            <div id="direitos">
+                <p>© 2024 Partilhe | Todos os Direitos Reservados.</p>
+            </div>
+
+
+</body>
+
+</html>

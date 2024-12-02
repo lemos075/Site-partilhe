@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinir Senha</title>
+    <link rel="stylesheet" href="./Assets/CSS/redefinir.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h1>Redefinir senha</h1>
+            <p>Por favor, informe seu email para redefinir a senha</p>
+            <form id="reset-password-form">
+                <input type="email" id="email" placeholder="emailemail@gmail.com" required>
+                <button type="submit">Enviar</button>
+            </form>
+            <p id="message"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+        import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+            authDomain: "partilhe-mais-79259.firebaseapp.com",
+            databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+            projectId: "partilhe-mais-79259",
+            storageBucket: "partilhe-mais-79259.appspot.com",
+            messagingSenderId: "921727100565",
+            appId: "1:921727100565:web:010e6654e4d882d4f25d9c",
+            measurementId: "G-PHQX3T6CLW"
+        };
+
+        // Inicializar o Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Manipulação do formulário
+        const resetPasswordForm = document.getElementById('reset-password-form');
+        const emailInput = document.getElementById('email');
+        const messageElement = document.getElementById('message');
+
+        resetPasswordForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Evita o envio padrão do formulário
+
+            const email = emailInput.value;
+            try {
+                // Enviar e-mail de redefinição de senha
+                await sendPasswordResetEmail(auth, email);
+                messageElement.textContent = "Um email foi enviado para redefinir sua senha.";
+                messageElement.style.color = "green";
+
+                // Redirecionar para a página anterior após 2 segundos
+                setTimeout(() => {
+                    history.back(); // Volta para a página anterior
+                }, 2000);
+            } catch (error) {
+                console.error("Erro ao enviar email:", error);
+                messageElement.textContent = "Erro ao enviar email. Verifique o endereço e tente novamente.";
+                messageElement.style.color = "red";
+            }
+        });
+    </script>
+</body>
+</html>

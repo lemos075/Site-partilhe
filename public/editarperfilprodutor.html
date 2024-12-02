@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do produtor</title>
+    <link rel="stylesheet" href="./Assets/CSS/styleeditarperfil.css">
+    <style>
+        /* Estilização para a imagem circular com tamanho fixo */
+        #preview-logo,
+        #logo-sidebar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Garante que a imagem se ajuste sem distorção */
+        }
+
+        /* Estilo do botão "Voltar" */
+        .back-button {
+            width: 80px;
+            /* Largura desejada */
+            height: 40px;
+            /* Altura desejada */
+            font-size: 14px;
+            /* Tamanho da fonte */
+            padding: 5px;
+            /* Espaçamento interno */
+            background-color: #f44336;
+            /* Cor de fundo */
+            color: white;
+            /* Cor do texto */
+            border: none;
+            /* Sem borda */
+            border-radius: 5px;
+            /* Cantos arredondados */
+            cursor: pointer;
+            /* Aponta o cursor de mão */
+        }
+
+        .back-button:hover {
+            background-color: #d32f2f;
+            /* Muda de cor ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside class="sidebar">
+            <button class="back-button" onclick="window.history.back()">Voltar</button> <!-- Botão para voltar -->
+            <div class="logo">
+
+                <img id="logo-sidebar" src="logo.png" alt="Logo ONG"> <!-- Atualizado dinamicamente -->
+            </div>
+            <h1 id="nome-sidebar">NOME Do produtor</h1> <!-- Atualizado dinamicamente -->
+            <p id="descricao-sidebar">Descrição da empresa</p> <!-- Atualizado dinamicamente -->
+            <div class="contact-info">
+                <h2 id="representante-sidebar">Nome do Representante</h2> <!-- Atualizado dinamicamente -->
+                <p>Email: <span id="email-sidebar">empresa@gmail.com</span></p> <!-- Atualizado dinamicamente -->
+                <p>Cidade: <span id="cidade-sidebar">Cidade selecionada</span></p> <!-- Atualizado dinamicamente -->
+                <p>Bairro: <span id="bairro-sidebar">Bairro Selecionado</span></p> <!-- Atualizado dinamicamente -->
+                <button class="whatsapp-button">
+                    <img src="./Assets/Img/WhatsAppicon.png" alt="Whatsapp">
+                    <span id="telefone-sidebar">+55 (11) 4002-6922</span> <!-- Atualizado dinamicamente -->
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Section -->
+        <main class="main-content">
+            <div class="edit-profile">
+                <h2>Editar Perfil</h2>
+                <label id="lbledit">Edite sua Foto</label> <br>
+                <input type="file" id="input-logo" accept="image/*"> <!-- Novo campo de input para imagem -->
+                <br>
+                <img id="preview-logo" src="./Assets/Img/icons8-usuário-homem-com-círculo-100.png"
+                    alt="Preview da Logo">
+                <form id="form-perfil">
+                    <label for="nome-ong">Nome da organizaçao</label>
+                    <input type="text" id="nome-ong" placeholder="Digite o nome do Produtor">
+
+                    <label for="historia-ong">descricao da organização</label>
+                    <textarea id="historia-ong" placeholder="Escreva a descrição da Empresa"></textarea>
+
+                    <label for="representante">Nome do Representante</label>
+                    <input type="text" id="representante" placeholder="Digite o nome do representante">
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Digite o email da Empresa">
+
+                    <label for="cnpj">CNPJ</label>
+                    <input type="text" id="cnpj" placeholder="Digite o CNPJ">
+
+                    <label for="whatsapp">WhatsApp (Telefone)</label>
+                    <input type="text" id="whatsapp" placeholder="Digite o número do WhatsApp">
+                    <button type="submit">ENVIAR DADOS</button>
+                </form>
+            </div>
+            <div class="address">
+                <h2>Seu Endereço</h2>
+                <form id="form-endereco">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" placeholder="Digite o CEP">
+
+                    <label for="uf">Estado</label>
+                    <input type="text" id="estado" placeholder="Digite o estado">
+
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" placeholder="Digite a cidade">
+
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" placeholder="Digite o bairro">
+
+                    <label for="logradouro">logradouro</label>
+                    <input type="text" id="logradouro" placeholder="Digite o logradouro">
+
+                    <label for="numero">Número</label>
+                    <input type="text" id="numero" placeholder="Digite o número">
+
+                    <input type="hidden" id="latitude">
+                    <input type="hidden" id="longitude">
+                    <button type="submit">ENVIAR DADOS</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script type="module">
+   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+
+// Configuração Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+    authDomain: "partilhe-mais-79259.firebaseapp.com",
+    databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+    projectId: "partilhe-mais-79259",
+    storageBucket: "partilhe-mais-79259.appspot.com",
+    messagingSenderId: "921727100565",
+    appId: "1:921727100565:web:0d3cfff47b9228eaf25d9c",
+    measurementId: "G-X251JJBP57",
+};
+
+// Inicializa o Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const storage = getStorage(app);
+const auth = getAuth();
+
+// Detecta o estado de autenticação (usuário logado)
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const uid = user.uid;
+        const userRef = ref(database, `usuarios/${uid}`);
+
+        // Carregar os dados no formulário e na sidebar
+        onValue(userRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById('nome-ong').value = data.nome_org || '';
+                document.getElementById('historia-ong').value = data.descricao || '';
+                document.getElementById('representante').value = data.nome_responsavel || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('cnpj').value = data.cnpj || '';
+                document.getElementById('whatsapp').value = data.telefone || '';
+
+                // Atualiza a sidebar
+                document.getElementById('nome-sidebar').textContent = data.nome_org || 'NOME DO Produtor';
+                document.getElementById('descricao-sidebar').textContent = data.descricao || 'Descrição da Empresa';
+                document.getElementById('representante-sidebar').textContent = data.nome_responsavel || 'Nome do Representante';
+                document.getElementById('email-sidebar').textContent = data.email || 'Email';
+                document.getElementById('cidade-sidebar').textContent = data.cidade || 'Cidade';
+                document.getElementById('bairro-sidebar').textContent = data.bairro || 'Bairro';
+                document.getElementById('telefone-sidebar').textContent = data.telefone || 'Telefone';
+
+                if (data.perfilUrl) {
+                    document.getElementById('logo-sidebar').src = data.perfilUrl;
+                }
+            }
+        });
+
+        // Função para fazer upload da imagem para o Firebase Storage
+        const uploadImage = (file) => {
+            const imageRef = storageRef(storage, `images/perfil/${uid}`);
+            return uploadBytes(imageRef, file).then((snapshot) => {
+                return getDownloadURL(snapshot.ref);
+            });
+        };
+
+        // Salvar dados do perfil e a logo
+        const formPerfil = document.getElementById('form-perfil');
+        formPerfil.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nome_org = document.getElementById('nome-ong').value;
+            const descricao = document.getElementById('historia-ong').value;
+            const nome_responsavel = document.getElementById('representante').value;
+            const email = document.getElementById('email').value;
+            const cnpj = document.getElementById('cnpj').value;
+            const telefone = document.getElementById('whatsapp').value;
+
+            const file = document.getElementById('input-logo').files[0];
+            let perfilUrl = '';
+
+            if (file) {
+                perfilUrl = await uploadImage(file);
+            }
+
+            // Atualizar dados no banco de dados
+            update(userRef, {
+                nome_org,
+                descricao,
+                nome_responsavel,
+                email,
+                cnpj,
+                telefone,
+                ...(perfilUrl && { perfilUrl })
+            }).then(() => {
+                alert('Dados atualizados com sucesso!');
+            }).catch((error) => {
+                alert('Erro ao atualizar os dados: ' + error);
+            });
+        });
+
+        // Preview da imagem
+        const inputLogo = document.getElementById('input-logo');
+        const previewLogo = document.getElementById('preview-logo');
+
+        inputLogo.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewLogo.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function buscarCEP(cep) {
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+
+                if (!data.erro) {
+                    const { localidade: cidade, bairro, logradouro, uf } = data;
+
+                    // Atualiza os campos do formulário
+                    document.getElementById('cidade').value = cidade;
+                    document.getElementById('bairro').value = bairro;
+                    document.getElementById('logradouro').value = logradouro;
+                    document.getElementById('estado').value = uf;
+
+                    // Obter coordenadas
+                    const enderecoCompleto = `${logradouro}, ${bairro}, ${cidade}, ${uf}, Brasil`;
+                    const coordenadas = await obterCoordenadas(enderecoCompleto);
+                    if (coordenadas) {
+                        document.getElementById('latitude').value = coordenadas.latitude;
+                        document.getElementById('longitude').value = coordenadas.longitude;
+                    } else {
+                        alert("Não foi possível obter coordenadas para o endereço.");
+                    }
+                } else {
+                    alert("CEP não encontrado.");
+                }
+            } catch (error) {
+                console.error("Erro ao buscar o CEP:", error);
+            }
+        }
+
+        // Função para obter latitude e longitude usando a API OpenCage
+        async function obterCoordenadas(endereco) {
+            const apiKey = '3c32cd23c367451e83a6f1b07cbd00b0'; // Substitua pela sua chave de API OpenCage
+            const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(endereco)}&key=${apiKey}&pretty=1&no_annotations=1`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.results && data.results.length > 0) {
+                    const location = data.results[0].geometry;
+                    return { latitude: location.lat, longitude: location.lng };
+                } else {
+                    console.warn(`Endereço não encontrado para: ${endereco}`);
+                }
+            } catch (error) {
+                console.error("Erro ao obter coordenadas:", error);
+            }
+            return null;
+        }
+
+        document.getElementById('cep').addEventListener('blur', (event) => {
+            const cep = event.target.value.replace(/\D/g, '');
+            if (cep.length === 8) buscarCEP(cep);
+            else alert("CEP inválido. Deve conter 8 dígitos.");
+        });
+
+        document.getElementById('form-endereco').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const enderecoRef = ref(database, `enderecos/${uid}`);
+            const cep = document.getElementById('cep')?.value || '';
+            const cidade = document.getElementById('cidade')?.value || '';
+            const bairro = document.getElementById('bairro')?.value || '';
+            const logradouro = document.getElementById('logradouro')?.value || '';
+            const uf = document.getElementById('estado')?.value || '';
+            const numero = document.getElementById('numero')?.value || '';
+            const latitude = document.getElementById('latitude')?.value || '';
+            const longitude = document.getElementById('longitude')?.value || '';
+
+            // Atualizando o endereço no banco de dados
+            update(enderecoRef, {
+                cep,
+                cidade,
+                bairro,
+                logradouro,
+                uf,
+                numero,
+                latitude,
+                longitude,
+                userId: uid,
+            })
+                .then(() => alert('Endereço atualizado com sucesso!'))
+                .catch((error) => alert('Erro ao atualizar o endereço: ' + error));
+        });
+
+    } else {
+        alert("Nenhum usuário está logado.");
+    }
+});
+    </script>
+</body>
+
+</html>

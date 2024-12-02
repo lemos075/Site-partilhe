@@ -1,0 +1,194 @@
+/* Estilo geral */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+  max-width: 50%; /* Reduzido para 50% da largura disponível */
+}
+
+.navbar .logo img {
+  max-width: 40%; /* Aumenta o tamanho da logo para 40% */
+  height: auto; /* Mantém a proporção da imagem */
+}
+
+.navbar .logo .highlight {
+  color: #333;
+}
+
+.navbar .logo .icon {
+  font-size: 18px;
+  margin-left: 5px;
+}
+
+.nav-links {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Centraliza os links */
+  align-items: center; /* Centraliza verticalmente */
+}
+
+.nav-links ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+
+.nav-links ul li {
+  font-size: 16px;
+}
+
+.nav-links ul li a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav-links ul li a:hover {
+  color: #2d732d;
+}
+
+.login-btn {
+  background-color: #2d732d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px; /* Adiciona espaço acima do botão */
+}
+
+.login-btn:hover {
+  background-color: #1f5a1f;
+}
+
+/* Termos */
+.termos-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #555;
+}
+
+.termos-section .welcome-message {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+.termos-section ol {
+  margin-top: 15px;
+  padding-left: 20px;
+}
+
+.termos-de-servico {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.termos-de-servico .termos-de {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d732d;
+}
+
+.termos-de-servico .servico {
+  font-size: 20px;
+  color: #555;
+}
+
+.line-3 {
+  height: 2px;
+  background-color: #2d732d;
+  width: 100%;
+  margin: 10px auto;
+}
+
+/* Rodapé */
+.footer {
+  background-color: #f9f9f9;
+  color: white;
+  padding: 20px 10px;
+  text-align: center;
+}
+
+.footer .flex-row-b-4 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.footer .flex-row-b-4 span {
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.footer .direitos-reservados {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 772px) {
+  /* Reorganizando a navbar */
+
+  .logo .imglogo {
+    width: 80%; /* Ajusta o tamanho da logo para telas menores */
+    height: auto;
+    margin: 10px auto; /* Remove grandes espaçamentos superiores */
+}
+  .navbar {
+    flex-direction: column;
+    align-items: center; /* Centraliza a logo e a navbar */
+    padding: 20px;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center; /* Centraliza os itens */
+    margin-top: 20px;
+  }
+
+  .nav-links ul {
+    display: block; /* As listas vão ficar em coluna */
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Centraliza os links dentro da lista */
+  }
+
+  .nav-links ul li {
+    font-size: 18px;
+    padding: 10px 0;
+  }
+
+  .nav-links ul li a {
+    color: #333;
+  }
+
+  /* Ajusta o botão para não ocupar toda a largura */
+  .login-btn {
+    width: auto; /* Largura automática para o botão */
+    margin-top: 20px;
+  }
+}

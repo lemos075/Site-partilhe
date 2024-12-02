@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Partilhe +</title>
+    <link rel="stylesheet" href="./Assets/CSS/stylelogin.css">
+  </head>
+  <body>
+   
+
+    <div class="login-container">
+      <h1>Login</h1>
+      <form>
+          <label for="email">Email ou telefone</label>
+          <input type="text" id="email" placeholder="Seu email ou telefone">
+
+          <label for="password">Senha</label>
+          <input type="password" id="password" placeholder="Senha">
+
+          <a href="./redefinir.html" class="forgot-password">Esqueci a senha</a>
+
+          <button type="submit" class="login-btn" id="signInButton">Login</button>
+      </form>
+      <div class="register-link">
+          <span>Não possui uma conta? </span><a href="./Cad.html" >Faça seu Cadastro</a>
+      </div>
+  </div>
+
+  </body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+import { signInWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+      authDomain: "partilhe-mais-79259.firebaseapp.com",
+      databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+      projectId: "partilhe-mais-79259",
+      storageBucket: "partilhe-mais-79259.appspot.com",
+      messagingSenderId: "921727100565",
+      appId: "1:921727100565:web:010e6654e4d882d4f25d9c",
+      measurementId: "G-PHQX3T6CLW"
+    };
+  
+  // Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+// Elementos do formulário de login
+const emailInput = document.querySelector('#email');
+const passwordInput = document.querySelector('#password');
+const signInButton = document.querySelector('#signInButton');
+
+// Evento de clique para o botão de login
+signInButton.addEventListener('click', (e) => {
+  e.preventDefault(); // Previne o comportamento padrão do formulário
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user; // Usuário autenticado com sucesso
+
+      if (!user.emailVerified) {
+        alert('Por favor, verifique seu e-mail antes de prosseguir.');
+
+        // Reenviar e-mail de verificação
+        sendEmailVerification(user)
+          .then(() => {
+            alert('E-mail de verificação reenviado. Verifique sua caixa de entrada.');
+          })
+          .catch((error) => {
+            console.error('Erro ao reenviar o e-mail de verificação:', error);
+            alert('Não foi possível reenviar o e-mail de verificação. Tente novamente mais tarde.');
+          });
+
+        auth.signOut(); // Desloga o usuário
+        return;
+      }
+
+      // Caso o e-mail esteja verificado, prossegue normalmente
+      const userId = user.uid;
+      const userRef = ref(database, 'usuarios/' + userId);
+      get(userRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+
+          if (userData.tipo === 'Produtor') {
+            window.location.href = 'MainPageProdutor.html';
+          } else if (userData.tipo === 'ONG') {
+            window.location.href = 'MainPageOng.html';
+          } else {
+            console.error('Tipo de usuário desconhecido:', userData.tipo);
+          }
+        } else {
+          console.error('Dados do usuário não encontrados no banco de dados.');
+        }
+      }).catch((error) => {
+        console.error('Erro ao buscar dados do usuário:', error);
+      });
+    })
+    .catch((error) => {
+      console.error('Erro ao fazer login:', error.message);
+      alert('Erro ao fazer login: ' + error.message);
+    });
+});
+
+
+
+  </script>
+</html>

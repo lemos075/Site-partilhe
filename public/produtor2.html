@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="./Assets/CSS/styleprod2.css">
+</head>
+<body>
+    <div class="register-container">
+        <h1>Cadastro</h1>
+        <h2>Finalização!!!</h2>
+        <form id="finalizacaoForm">
+            <label for="descrição">Descrição *</label>
+            <input type="text" id="descrição" placeholder="Nos dê uma breve descrição da sua empresa" required>
+            
+            <div class="input-group">
+                <label for="password">Senha <span>*</span></label>
+                <input type="password" id="password" placeholder="Senha" required>
+                <button type="button" class="toggle-password">👁️</button>
+            </div>
+    
+            <div class="input-group">
+                <label for="confirm-password">Confirmação de senha <span>*</span></label>
+                <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
+            </div>
+            
+            <button type="submit" class="continue-btn">Continuar</button>
+        </form>
+        <div class="login-link">
+            <span>Já tem uma conta? </span><a href="#">Fazer login</a>
+        </div>
+    </div>
+
+    <script type="module"> 
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"; 
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+            authDomain: "partilhe-mais-79259.firebaseapp.com",
+            databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+            projectId: "partilhe-mais-79259",
+            storageBucket: "partilhe-mais-79259.appspot.com",
+            messagingSenderId: "921727100565",
+            appId: "1:921727100565:web:010e6654e4d882d4f25d9c",
+            measurementId: "G-PHQX3T6CLW"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+
+        // Recupera os dados salvos no localStorage
+        const dadosProdutor1 = JSON.parse(localStorage.getItem('dadosProdutor'));
+
+        // Verifica se os dados do produtor existem
+        if (!dadosProdutor1 || !dadosProdutor1.email) {
+            alert("Dados do produtor não encontrados ou email inválido.");
+        }
+
+        // Manipula o envio do formulário
+    document.getElementById('finalizacaoForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const descricao = document.getElementById('descrição').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (password !== confirmPassword) {
+        alert('As senhas não coincidem!');
+        return;
+    }
+
+    if (password.length < 6) {
+        alert('A senha deve ter pelo menos 6 caracteres.');
+        return;
+    }
+
+    const dadosCompletos = {
+        ...dadosProdutor1,
+        descricao: descricao,
+        tipo: dadosProdutor1.tipoUsuario // Certifique-se de incluir o tipo de usuário
+    };
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, String(dadosProdutor1.email), String(password));
+        const user = userCredential.user;
+        const userId = user.uid;
+
+        const usuarioRef = ref(database, `usuarios/${userId}`);
+        await set(usuarioRef, dadosCompletos);
+
+        alert('Cadastro realizado com sucesso!');
+        localStorage.clear(); // Limpa o localStorage após o sucesso
+        window.location.href = 'public\Login.html'; // Redireciona para a página de login ou outra página
+    } catch (error) {
+        console.error('Erro ao criar usuário:', error);
+        alert('Erro ao criar usuário: ' + error.message);
+    }
+});
+
+    </script>
+</body>
+</html>

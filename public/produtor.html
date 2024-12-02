@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="./Assets/CSS/styleprod.css">
+</head>
+<body>
+  <div class="register-container">
+      <h1>Cadastro</h1>
+      <h2>Seja <span class="highlight">bem vindo, produtor!</span></h2>
+      
+      <form id="cadastroForm">
+          <label for="nome">Nome completo do produtor *</label>
+          <input type="text" id="nome_responsavel" placeholder="Nome do responsável" required>
+
+          <label for="cpf">CPF do produtor *</label>
+          <input type="text" id="cpf" placeholder="000.000.000-00" required>
+
+          <label for="email">Email</label>
+          <input type="text" id="email" placeholder="email@email.com" required>
+
+          <label for="nascimento">Data de nascimento *</label>
+          <input type="text" id="nascimento" placeholder="DD/MM/AAAA" required>
+
+          <label for="cnpj">CNPJ *</label>
+          <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
+
+          <label for="telefone">telefone</label>
+          <input type="text" id="telefone" placeholder="11 12345-6789" required>
+
+          <label for="empresa">Nome da empresa *</label>
+          <input type="text" id="nome_org" placeholder="Nome da organização" required>
+
+          <label for="documento">Foto com documento (RG/CPF) *</label>
+          <input type="file" id="documento" required accept="image/*">
+
+          <button type="submit" class="continue-btn" id="continuarprod">Continuar</button>
+      </form>
+
+      <div class="login-link">
+          <span>Já tem uma conta? </span><a href="#">Fazer login</a>
+      </div>
+  </div>
+
+  <script type="module">
+           import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+      import { getDatabase, ref as dbRef, set } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+      import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+      import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+      const firebaseConfig = {
+          apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+          authDomain: "partilhe-mais-79259.firebaseapp.com",
+          databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+          projectId: "partilhe-mais-79259",
+          storageBucket: "partilhe-mais-79259.appspot.com",
+          messagingSenderId: "921727100565",
+          appId: "1:921727100565:web:010e6654e4d882d4f25d9c",
+          measurementId: "G-PHQX3T6CLW"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+      const auth = getAuth(app);
+      const storage = getStorage(app);
+
+      document.getElementById('cadastroForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const tipoUsuario = localStorage.getItem('tipoUsuario'); // Recupera o tipo de usuário
+    if (!tipoUsuario) {
+        alert("Tipo de usuário não definido. Por favor, volte e selecione Produtor ou ONG.");
+        return;
+    }
+
+    const nome_responsavel = document.getElementById('nome_responsavel').value;
+    const cpf = document.getElementById('cpf').value;
+    const email = document.getElementById('email').value;
+    const nascimento = document.getElementById('nascimento').value;
+    const cnpj = document.getElementById('cnpj').value;
+    const telefone = document.getElementById('telefone').value;
+    const nome_org = document.getElementById('nome_org').value;
+    const documento = document.getElementById('documento').files[0];
+
+    if (!documento) {
+        alert("Por favor, selecione uma imagem do RG/CPF.");
+        return;
+    }
+
+    try {
+        const rgRef = storageRef(storage, `images/rg/${nome_org}_${Date.now()}`);
+        const snapshot = await uploadBytes(rgRef, documento);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        const dadosProdutor = {
+            tipoUsuario, // Adiciona o tipo de usuário
+            nome_responsavel,
+            cpf,
+            email,
+            nascimento,
+            cnpj,
+            telefone,
+            nome_org,
+            rg_url: downloadURL
+        };
+
+        localStorage.setItem('dadosProdutor', JSON.stringify(dadosProdutor));
+        window.location.href = "produtor2.html"; // Redireciona para o segundo formulário
+    } catch (error) {
+        console.error("Erro ao fazer upload do RG:", error);
+        alert("Erro ao salvar imagem do RG. Tente novamente.");
+    }
+});
+
+  </script>
+</body>
+</html>
+

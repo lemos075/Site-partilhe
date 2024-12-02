@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Crie uma Senha</title>
+    <link rel="stylesheet" href="./Assets/CSS/styleong2.css">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro</h2>
+        <p>Crie uma Senha</p>
+        <form action="#">
+            <div class="input-group">
+                <label for="password">Senha <span>*</span></label>
+                <input type="password" id="password" placeholder="Senha" required>
+                <button type="button" class="toggle-password">👁️</button>
+            </div>
+    
+            <div class="input-group">
+                <label for="confirm-password">Confirmação de senha <span>*</span></label>
+                <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
+            </div>
+    
+            <button type="submit" class="btn">Continuar</button>
+        </form>
+    
+        <div class="footer">
+            <p>Já tem uma conta? <a href="/public/Login.html">Fazer login</a></p>
+        </div>
+    </div>
+
+
+</body>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getDatabase, set, ref as dbRef } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+        authDomain: "partilhe-mais-79259.firebaseapp.com",
+        databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+        projectId: "partilhe-mais-79259",
+        storageBucket: "partilhe-mais-79259.appspot.com",
+        messagingSenderId: "921727100565",
+        appId: "1:921727100565:web:010e6654e4d882d4f25d9c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+
+    //pega o evento de clique do botao 
+    document.querySelector('form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+//pega os elementos das senhas
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+
+        if (password !== confirmPassword) {
+            alert("As senhas não coincidem!");
+            return;
+        }
+//pega os elementos do formulario
+        const nome_responsavel = localStorage.getItem('nome_responsavel');
+        const email = localStorage.getItem('email');
+        const telefone = localStorage.getItem('telefone');
+        const cnpj = localStorage.getItem('cnpj');
+        const nome_org = localStorage.getItem('nome_org');
+        const rg_url = localStorage.getItem('rg_url');
+        const nascimento = localStorage.getItem('nascimento');
+        const cpf = localStorage.getItem('cpf');
+
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const userId = userCredential.user.uid;
+//salva tudo no firebase
+            await set(dbRef(database, 'usuarios/' + userId), {
+                cpf,
+                cnpj,
+                nome_responsavel,
+                nascimento: nascimento,
+                email,
+                telefone,
+                rgUrl: rg_url,
+                nome_org,
+                tipo: localStorage.getItem('tipoUsuario')
+            });
+
+            alert('Usuário e dados salvos com sucesso!');
+            localStorage.clear();
+            window.location.href = 'public\Login.html';
+        } catch (error) {
+            console.error("Erro:", error);
+            alert("Erro ao salvar dados: " + error.message);
+        }
+    });
+
+</script>
+
+
+
+</html>

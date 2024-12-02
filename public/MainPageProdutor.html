@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas</title>
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
+    <link rel="stylesheet" href="./Assets/CSS/stylemainpageong.css">
+
+    <style>/* Estilo do modal */
+    /* Modal Overlay */
+/* Modal Overlay */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mostrar o Modal */
+.modal.show {
+    display: flex;
+}
+
+/* Conteúdo do Modal */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Animação Fade In */
+@keyframes fadeIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Botão de Fechar */
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Floating Label Style */
+.group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.group input[type="text"],
+.group input[type="date"],
+.group input[type="file"],
+.group textarea {
+    font-size: 16px;
+    padding: 10px;
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.group label {
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    font-size: 14px;
+    color: #888;
+    transition: 0.3s ease;
+    background-color: #fff;
+    padding: 0 5px;
+}
+
+.group input:focus + label,
+.group textarea:focus + label,
+.group input:not(:placeholder-shown) + label,
+.group textarea:not(:placeholder-shown) + label {
+    color: #333;
+    font-size: 12px;
+    top: -20px;
+}
+
+/* Botão de Salvar */
+.save-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+      /* From Uiverse.io by vinodjangid07 */ 
+.edit-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100px;
+  height: 50px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(3, 110, 3);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px rgb(0, 63, 26);
+  transition-duration: .3s;
+}
+
+
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* Centraliza o conteúdo horizontalmente */
+  justify-content: center;  /* Centraliza o conteúdo verticalmente */
+  text-align: center;
+}
+
+.svg {
+  width: 13px;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  fill: white;
+  transition-duration: .3s;
+}
+
+.edit-button:hover {
+  color: transparent;
+}
+
+.edit-button:hover svg {
+  right: 43%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transition-duration: .3s;
+}
+
+.edit-button:active {
+  transform: translate(3px , 3px);
+  transition-duration: .3s;
+  box-shadow: 2px 2px 0px rgb(140, 32, 212);
+}
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões */
+    justify-content: center; /* Alinha os botões horizontalmente no centro */
+}
+
+      </style>
+</head>
+
+
+<body>
+
+    <div id="nav-bar">
+        <input id="nav-toggle" type="checkbox" />
+        <div id="nav-header"><a id="nav-title" target="_blank"><i
+                    class="fab fa-codepen"></i>Partilhe</a>
+            <label for="nav-toggle"><span id="nav-toggle-burger"></span></label>
+            <hr />
+        </div>
+        <div id="nav-content">
+            <div class="nav-button" id="produtor-button"><i class="fas fa-palette"></i><span>Meu Perfil</span></div>
+            <hr />
+            <div class="nav-button" id="doacoesdisp"><i class="fas fa-palette"></i><span>Doações Disponiveis</span></div>
+            <div class="nav-button" id="doacoesres"><i class="fas fa-palette"></i><span>Doações Reservadas</span></div>
+            <div class="nav-button" id="doacoesentre"><i class="fas fa-palette"></i><span>Doações Entregues</span></div>
+            <hr />
+            <div class="nav-button"><i class="fas fa-chart-line"></i><span><a href="./termos.html">Termos e condições</a></span></div>
+            <div class="nav-button" id="logout-button"><i class="fas fa-gem"></i><span>Sair</span></div>
+            <div id="nav-content-highlight"></div>
+        </div>
+        <input id="nav-footer-toggle" type="checkbox" />
+        <div id="nav-footer">
+            <div id="nav-footer-heading">
+                <div id="nav-footer-avatar"><img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547" />
+                </div>
+                <div id="nav-footer-titlebox"><a id="nav-footer-title" href="https://codepen.io/uahnbu/pens/public"
+                        target="_blank">Nome produtor</a><span id="nav-footer-subtitle">Produtor</span></div>
+                <label for="nav-footer-toggle"><i class="fas fa-caret-up"></i></label>
+            </div>
+            <div id="nav-footer-content">
+                <Lorem id="ong-descricao">ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.</Lorem>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+      <!-- Modal para edição da doação -->
+<div id="modal-edicao" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModalEdicao()">&times;</span>
+    <h2>Editar Doação</h2>
+    <form id="form-edicao">
+      <div class="group">
+        <input type="text" id="edit-titulo" required="">
+        <label for="edit-titulo">Título</label>
+      </div>
+      <div class="group">
+        <textarea id="edit-descricao" rows="5" required=""></textarea>
+        <label for="edit-descricao">Descrição</label>
+      </div>
+      <div class="group">
+        <input type="date" id="edit-dataValidade" required="">
+        <label for="edit-dataValidade">Data de Validade</label>
+      </div>
+      <div class="group">
+        <input type="file" id="edit-file">
+        <label for="edit-file">Alterar Imagem</label>
+      </div>
+      <button type="submit" class="save-button">Salvar Alterações</button>
+    </form>
+  </div>
+</div>
+
+        <!-- botao adicionar -->
+
+        <button type="button" class="button" onclick="redirecionarParaOutraPagina()" id="botaoformprod">
+            <span class="button__text">Adicionar Doação</span>
+            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24"
+                    stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24"
+                    fill="none" class="svg">
+                    <line y2="19" y1="5" x2="12" x1="12"></line>
+                    <line y2="12" y1="12" x2="19" x1="5"></line>
+                </svg></span>
+        </button>
+
+        <!--titulo desktop -->
+        <h3 class="title">Minhas Doações</h3>
+
+        <!-- caixas de itens -->
+        <div class="products-container"> </div>
+
+</body>
+
+<script type="module">
+import { getDatabase, ref, update, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+// Configuração Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBOExtvp4_c-k6tiYWm4No0YcR_TTdAtMI",
+  authDomain: "partilhe-mais-79259.firebaseapp.com",
+  databaseURL: "https://partilhe-mais-79259-default-rtdb.firebaseio.com",
+  projectId: "partilhe-mais-79259",
+  storageBucket: "partilhe-mais-79259.appspot.com",
+  messagingSenderId: "921727100565",
+  appId: "1:921727100565:web:0d3cfff47b9228eaf25d9c",
+  measurementId: "G-X251JJBP57",
+};
+
+// Inicializa o Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth();
+const storage = getStorage();
+
+// Referências para os nós de doações e usuários
+const doacoesRef = ref(database, 'doacoes');
+const usuariosRef = ref(database, 'usuarios');  // Nó para os usuários
+
+let todasDoacoes = [];
+let usuarios = {};
+
+function criarCardDoacao(titulo, descricao, dataValidade, status, nome_org, imgUrl, avatarUrl, doacaoId) {
+  const container = document.querySelector('.products-container');
+  const card = document.createElement('div');
+  card.classList.add('card');
+  card.setAttribute('data-name', titulo);
+
+  // Adicionando o botão de marcar como entregue para doações reservadas
+  let entregaButton = '';
+  if (status === 'reservado') {
+    entregaButton = `<button class="edit-button" onclick="marcarComoEntregue('${doacaoId}')">Marcar como Entregue</button>`;
+  }
+
+  // Adicionando o botão de editar somente se o status for "disponível"
+  let editButton = '';
+  if (status === 'disponivel') {
+    editButton = `
+      <button class="edit-button" onclick="abrirModalEdicao('${doacaoId}')">
+        Editar
+        <svg class="svg" viewBox="0 0 512 512">
+          <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+        </svg>
+      </button>
+    `;
+  }
+
+  card.innerHTML = `
+    <div class="card-header">
+      <img class="heart-icon" src="https://example.com/heart-icon.png" alt="Favoritar">
+    </div>
+    <img src="${imgUrl}" class="card-image">
+    <div class="card-body">
+      <div class="user-info">
+        <img class="user-avatar" src="${avatarUrl || 'https://example.com/user-avatar.png'}" alt="Avatar">
+        <div class="user-details">
+          <h3>${nome_org}</h3>
+        </div>
+      </div>
+      <h2 class="card-description">${titulo}</h2>
+      <p class="availability ${status === 'Disponível' ? '' : 'unavailable'}"><strong>Status:</strong> ${status}</p>
+      <div class="button-container">
+        ${entregaButton}
+        ${editButton}
+      </div>
+    </div>
+  `;
+  
+  container.appendChild(card);
+}
+
+
+
+// Função para marcar a doação como entregue
+function marcarComoEntregue(doacaoId) {
+  const doacaoRef = ref(database, `doacoes/${doacaoId}`);
+  
+  // Atualiza o status da doação para 'entregue'
+  update(doacaoRef, { status: 'entregue' })
+    .then(() => {
+      alert('Doação marcada como entregue!');
+      carregarDoacoes(); // Recarrega as doações para refletir a mudança
+    })
+    .catch((error) => {
+      console.error('Erro ao atualizar o status da doação:', error);
+      alert('Erro ao marcar como entregue.');
+    });
+}
+
+// Expondo a função globalmente
+window.marcarComoEntregue = marcarComoEntregue;
+
+
+function carregarUsuarios() {
+  return new Promise((resolve, reject) => {
+    onValue(usuariosRef, (snapshot) => {
+      usuarios = snapshot.val();
+      resolve(usuarios);
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
+
+async function carregarDoacoes() {
+  try {
+    await carregarUsuarios(); // Carregar os dados dos usuários primeiro
+
+    const user = auth.currentUser; // Verifica o usuário logado
+    if (!user) {
+      alert("Nenhum usuário logado.");
+      return;
+    }
+
+    const userIdAtual = user.uid; // ID do usuário logado
+
+    onValue(doacoesRef, (snapshot) => {
+      const doacoes = snapshot.val();
+      todasDoacoes = []; // Resetar a lista de doações
+
+      if (doacoes) {
+        document.querySelector('.products-container').innerHTML = ''; // Limpa o container
+
+        Object.keys(doacoes).forEach((key) => {
+          const doacao = doacoes[key];
+
+          // Verifica se a doação pertence ao usuário logado e se o status é disponível ou reservado
+          if (doacao && doacao.userId === userIdAtual && doacao.titulo && doacao.imagemUrl && (doacao.status === 'disponivel' || doacao.status === 'reservado' || doacao.status ==='entregue')) {
+            todasDoacoes.push(doacao); // Armazena as doações do usuário logado
+
+            const nome_org = usuarios[userIdAtual] ? usuarios[userIdAtual].nome_org : 'Usuário Desconhecido';
+            const avatarUrl = usuarios[userIdAtual] ? usuarios[userIdAtual].perfilUrl : 'https://example.com/user-avatar.png';
+
+            criarCardDoacao(
+              doacao.titulo,
+              doacao.descricao || 'Sem descrição',
+              doacao.dataValidade || 'Indefinida',
+              doacao.status,
+              nome_org,
+              doacao.imagemUrl,
+              avatarUrl,
+              key // Passe o ID da doação aqui
+            );
+          }
+        });
+
+        // Verifica se não há doações para o usuário logado
+        if (todasDoacoes.length === 0) {
+          document.querySelector('.products-container').innerHTML = '<p>Você ainda não tem doações cadastradas.</p>';
+        }
+      } else {
+        document.querySelector('.products-container').innerHTML = '<p>Não há doações disponíveis.</p>';
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao carregar usuários ou doações:', error);
+  }
+}
+
+
+
+// Função para filtrar as doações com base na pesquisa
+function filtrarDoacoes() {
+  const termoBusca = document.getElementById('searchInput').value.toLowerCase();
+
+  const container = document.querySelector('.products-container');
+  container.innerHTML = ''; // Limpa a exibição atual
+
+  const doacoesFiltradas = todasDoacoes.filter(doacao =>
+    doacao.titulo.toLowerCase().includes(termoBusca)
+  );
+
+  if (doacoesFiltradas.length > 0) {
+    doacoesFiltradas.forEach(doacao => {
+      const userId = doacao.userId || null;
+      const nomeOrg = userId && usuarios[userId] ? usuarios[userId].nome_org : 'Usuário Desconhecido';
+      
+      const nome_org = userId && usuarios[userId] ? usuarios[userId].nome_org : 'Usuário Desconhecido';
+      
+
+      criarCardDoacao(
+        doacao.titulo,
+        doacao.descricao || 'Sem descrição',
+        doacao.dataValidade || 'Indefinida',
+        doacao.status || 'Não especificado',
+        nomeOrg,
+        nome_org,
+        doacao.imagemUrl,
+        avatarUrl // Passa o avatarUrl para a função criarCardDoacao
+      );
+    });
+  } else {
+    container.innerHTML = '<p>Nenhuma doação encontrada.</p>'; // Exibe uma mensagem se não houver resultados
+  }
+}
+
+// Expor a função ao escopo global
+window.filtrarDoacoes = filtrarDoacoes;
+
+// Chama a função para carregar as doações ao iniciar a página
+document.addEventListener('DOMContentLoaded', carregarDoacoes);
+
+
+const produtorButton = document.getElementById('produtor-button');
+
+//* Adiciona um evento de clique ao elemento
+produtorButton.addEventListener('click', function() {
+  // Redireciona para a página desejada
+  window.location.href = "./editarperfilprodutor.html"; // Coloque a URL desejada aqui
+});
+
+
+
+
+// Função para carregar o usuário atual e atualizar o menu, incluindo a imagem de perfil
+function carregarUsuarioAtual(userIdAtual) {
+  // Busca os dados do usuário no Realtime Database
+  onValue(ref(database, `usuarios/${userIdAtual}`), (snapshot) => {
+    const dadosUsuario = snapshot.val();
+    console.log(dadosUsuario); // Verifique o que está sendo retornado
+
+    if (dadosUsuario) {
+      // Atualiza o nome e descrição
+      document.getElementById('nav-footer-title').textContent = dadosUsuario.nome_org || 'Nome não disponível';
+      document.getElementById('ong-descricao').textContent = dadosUsuario.descricao || 'Descrição não disponível';
+
+      // Carrega a imagem de perfil a partir do campo logoUrl no nó de usuários
+      const perfilUrl = dadosUsuario.perfilUrl;
+
+      // Atualiza a imagem no menu lateral, se o logoUrl existir
+      const avatarImg = document.querySelector("#nav-footer-avatar img");
+      if (avatarImg) {
+        avatarImg.src = perfilUrl || 'https://via.placeholder.com/150'; // Usa logoUrl ou uma imagem padrão
+      }
+    } else {
+      console.log('Dados do usuário não encontrados.');
+    }
+  });
+}
+
+// Listener para o estado de autenticação
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const userIdAtual = user.uid;
+    carregarUsuarioAtual(userIdAtual);
+  } else {
+    console.log("Nenhum usuário logado.");
+  }
+});
+
+function redirecionarParaOutraPagina() {
+    window.location.href = "FrmProdutos.html";
+  }
+
+  document.getElementById('botaoformprod').addEventListener('click', function() {
+    redirecionarParaOutraPagina('FrmProdutos.html');
+  });
+
+
+// Função para redirecionar o usuário para a página de cadastro (ou login)
+function sair() {
+  // Usar auth para sair corretamente
+  auth.signOut().then(() => {
+    console.log('Usuário desconectado');
+    // Redirecionar para a página de cadastro
+    window.location.href = 'Login.html'; // Substitua com o caminho correto para a sua página de cadastro
+  }).catch((error) => {
+    console.error('Erro ao sair:', error);
+  });
+}
+
+
+// Adicionar evento de clique ao botão "Sair"
+const logoutButton = document.getElementById('logout-button');
+logoutButton.addEventListener('click', sair);
+
+
+let doacaoAtualId = null;
+
+// Função para abrir o modal e preencher com os dados da doação
+function abrirModalEdicao(doacaoId) {
+    doacaoAtualId = doacaoId;
+
+    // Busca os dados da doação no Firebase
+    onValue(ref(database, `doacoes/${doacaoId}`), (snapshot) => {
+        const doacao = snapshot.val();
+        if (doacao) {
+            document.getElementById('edit-titulo').value = doacao.titulo;
+            document.getElementById('edit-descricao').value = doacao.descricao;
+            document.getElementById('edit-dataValidade').value = doacao.dataValidade;
+        }
+    });
+
+    // Mostra o modal com transição suave
+    const modal = document.getElementById('modal-edicao');
+    modal.classList.remove('hide');
+    modal.classList.add('show');
+}
+
+function fecharModalEdicao() {
+    const modal = document.getElementById('modal-edicao');
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+
+}
+
+document.getElementById('form-edicao').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (!doacaoAtualId) {
+    alert('Nenhuma doação selecionada para edição.');
+    return;
+  }
+
+  const titulo = document.getElementById('edit-titulo').value;
+  const descricao = document.getElementById('edit-descricao').value;
+  const dataValidade = document.getElementById('edit-dataValidade').value;
+  const file = document.getElementById('edit-file').files[0];
+  let imagemUrl = null;
+
+  try {
+    // Se o arquivo foi selecionado, faz o upload
+    if (file) {
+      const storageReference = storageRef(storage, `doacoes/${file.name}`);
+      const snapshot = await uploadBytes(storageReference, file);
+      imagemUrl = await getDownloadURL(storageReference);
+    }
+
+    // Atualiza os dados da doação no Firebase
+    const doacaoAtualizada = {
+      titulo: titulo,
+      descricao: descricao,
+      dataValidade: dataValidade,
+      ...(imagemUrl && { imagemUrl }) // Atualiza a URL da imagem se houver uma nova
+    };
+
+    // Atualiza a doação no Realtime Database
+    const doacaoRef = ref(database, `doacoes/${doacaoAtualId}`);
+    await update(doacaoRef, doacaoAtualizada); // Chama a função update corretamente
+    alert('Doação atualizada com sucesso!');
+    fecharModalEdicao();
+    carregarDoacoes(); // Atualiza a lista de doações
+  } catch (error) {
+    console.error('Erro ao atualizar a doação:', error);
+    alert('Erro ao atualizar a doação.');
+  }
+});
+
+
+// Expor as funções ao escopo global
+window.abrirModalEdicao = abrirModalEdicao;
+window.fecharModalEdicao = fecharModalEdicao;
+
+
+function atualizarTitulo(titulo) {
+  const tituloElemento = document.querySelector('.title');
+  tituloElemento.textContent = titulo;
+}
+
+
+// Função para mostrar doações disponíveis
+function mostrarDoacoesDisponiveis() {
+    atualizarTitulo("Doações Disponíveis");
+    filtrarDoacoesPorStatus("disponivel");
+}
+
+// Função para mostrar doações reservadas
+function mostrarDoacoesReservadas() {
+    atualizarTitulo("Doações Reservadas");
+    filtrarDoacoesPorStatus("reservado");
+}
+
+// Função para mostrar doações entregues
+function mostrarDoacoesEntregues() {
+    atualizarTitulo("Doações Entregues");
+    filtrarDoacoesPorStatus("entregue");
+}
+
+// Função genérica para filtrar doações com base no status
+function filtrarDoacoesPorStatus(statusFiltro) {
+    const container = document.querySelector('.products-container');
+    container.innerHTML = ''; // Limpa a exibição atual
+
+    const doacoesFiltradas = todasDoacoes.filter(doacao => doacao.status === statusFiltro);
+
+    if (doacoesFiltradas.length > 0) {
+        doacoesFiltradas.forEach(doacao => {
+            const nomeOrg = usuarios[doacao.userId] ? usuarios[doacao.userId].nome_org : 'Usuário Desconhecido';
+            const avatarUrl = usuarios[doacao.userId] ? usuarios[doacao.userId].perfilUrl : 'https://example.com/user-avatar.png';
+
+            criarCardDoacao(
+                doacao.titulo,
+                doacao.descricao || 'Sem descrição',
+                doacao.dataValidade || 'Indefinida',
+                doacao.status,
+                nomeOrg,
+                doacao.imagemUrl,
+                avatarUrl,
+                doacao.doacaoId
+            );
+        });
+    } else {
+        container.innerHTML = `<p>Não há doações com status "${statusFiltro}" no momento.</p>`;
+    }
+}
+
+
+
+
+document.getElementById("doacoesdisp").addEventListener("click", mostrarDoacoesDisponiveis);
+document.getElementById("doacoesres").addEventListener("click", mostrarDoacoesReservadas);
+document.getElementById("doacoesentre").addEventListener("click", mostrarDoacoesEntregues);
+
+
+</script>
+
+</html>

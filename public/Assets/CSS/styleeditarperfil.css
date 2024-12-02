@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f8f8f8;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 30%;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar h1 {
+    font-size: 1.5rem;
+    color: #2b9e58;
+    text-align: center;
+}
+
+.sidebar p {
+    font-size: 1rem;
+    margin: 20px 0;
+    text-align: justify;
+}
+
+.contact-info {
+    margin-top: 20px;
+}
+
+.contact-info h2 {
+    font-size: 1.2rem;
+    color: #2b9e58;
+}
+
+.contact-info p {
+    margin: 10px 0;
+}
+
+.whatsapp-button {
+    background-color: #25d366;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.whatsapp-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.main-content {
+    width: 70%;
+    padding: 20px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-profile, .address {
+    width: 45%;
+}
+
+.edit-profile h2, .address h2 {
+    font-size: 1.5rem;
+    color: #2b9e58;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input, textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+button {
+    background-color: #2b9e58;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #238e4d;
+}
+
+#editimg{
+    
+    background-color: rgba(0, 0, 0, 0.5); /* fundo semitransparente */
+    color: black;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+#iconuser {
+    object-fit: cover;
+    display: block;
+}
+
+#editfotoperfil {
+    height: 100px;
+    width: 100px;
+ background-color: gold;
+ border-radius: 200px;
+} 
+
+#lbledit{
+    font-size:18px;
+    color: black;
+}
+
+#iconuser{
+    margin-top: -10px;
+    margin-left: -10px;
+}
+

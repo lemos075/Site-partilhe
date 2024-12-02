@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+* {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden; /* Evita o scroll horizontal */
+}
+
+.border-button a, 
+.main-button a {
+    font-size: 15px;
+    color: #fff;
+    background-color: #63a567;
+    border: 1px solid #63a567;
+    padding: 10px 30px;
+    display: inline-block;
+    border-radius: 10px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+
+/* Efeito hover para os botões */
+.border-button a:hover {
+    background-color: #63a567;
+    color: #fff;
+}
+
+.header-area .main-nav .logo img {
+    max-width: 60%; /* Garante que a logo ocupe no máximo 50% do contêiner */
+    height: auto; /* Mantém a proporção da imagem */
+    display: block; /* Remove espaçamentos em torno da imagem */
+    margin: auto;
+    margin-top: -10%; /* Centraliza horizontalmente e adiciona um pequeno espaçamento */
+}
+
+nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 10px 20px;
+        box-shadow: 0 2px 0px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+        width: 100%;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    max-width: 50%; /* Reduzido para 50% da largura disponível */
+  }
+  
+  .navbar .logo img {
+    max-width: 40%; /* Aumenta o tamanho da logo para 40% */
+    height: auto; /* Mantém a proporção da imagem */
+  }
+  
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Para que os itens se ajustem em telas menores */
+    justify-content: center; /* Garante que os itens do menu fiquem centralizados */
+}
+
+nav li {
+    margin: 0 20px; /* Ajusta o espaçamento entre itens */
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #ccc;
+}
+
+.doar-btn {
+    background-color: black;
+    color: #fff;
+    border: none;
+    padding: 10px 40px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-left: 20px; /* Garante espaçamento ao lado do botão */
+}
+
+.doar-btn:hover {
+    background-color: #c9e7c2;
+}
+
+#greenbar {
+    width: 100%;
+    height: 25px;
+    background-color: #c9e7c2;
+    text-align: center;
+    padding: 10px;
+}
+
+#greenbar p {
+    font-size: 15px;
+    color: #7dbb6d;
+    margin: 0;
+    margin-top: 25px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text {
+    text-align: center;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: -15px;
+}
+
+#conosco {
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: -20px;
+    margin-bottom: 10px;
+}
+
+#fale {
+    font-size: 35px;
+    margin-top: 5px;
+}
+
+.tit-contato {
+    text-align: center;
+}
+
+.txt-contato {
+    font-size: 20px;
+    text-align: center;
+    text-indent: 20px;
+}
+
+#footer {
+    margin-top: 80%;
+    font-weight: bold;
+}
+
+#direitos {
+    margin-top: 40px;
+    color: #b6b6b6;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 772px) {
+
+    .header-area .main-nav .logo img {
+        max-width: 60%; /* Ajusta o tamanho da logo para telas menores */
+        height: auto;
+        margin: 10px auto; /* Remove grandes espaçamentos superiores */
+    }
+
+    nav {
+        flex-direction: column; /* Força os itens a empilharem verticalmente */
+        align-items: center;
+    }
+
+    nav ul {
+        flex-direction: column; /* Alinha os itens do menu em uma única coluna */
+        width: 100%;
+    }
+
+    nav li {
+        margin: 10px 0; /* Ajusta o espaçamento entre os itens */
+        text-align: center;
+    }
+
+    .doar-btn {
+        margin-top: 10px; /* Move o botão para baixo em telas menores */
+    }
+
+    #footer {
+        margin-top: 30%;
+        align-items: center;
+        margin-right: 0;
+    }
+}
